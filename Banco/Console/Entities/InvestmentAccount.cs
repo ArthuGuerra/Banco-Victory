@@ -1,7 +1,6 @@
 using System.Globalization;
 using Banco.Services;
 
-
 namespace Banco.Entities
 {
     public class InvestmentAccount
@@ -11,6 +10,7 @@ namespace Banco.Entities
         private int _count = 5;
         private List<string> _extrato = new List<string>();
         private Custumer _custumer;
+        private DateTime _date = DateTime.UtcNow;
 
         
         public InvestmentAccount(double balanceInvest,Custumer custumer)
@@ -32,7 +32,7 @@ namespace Banco.Entities
             else
             {
                 _balanceInvest -= amount + 5;
-                _extrato.Add($"Saque realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {DateTime.Now.ToString("dd/MM/yyyyTHH:mmZ")}");
+                _extrato.Add($"Saque realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")}");
                 Console.WriteLine("Saque realizado ");
                 _count--;
             }        
@@ -40,7 +40,7 @@ namespace Banco.Entities
 
         public void Deposit(double amount)
         {
-            _extrato.Add($"Depósito realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {DateTime.Now.ToString("dd/MM/yyyyTHH:mmZ")}");
+            _extrato.Add($"Depósito realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
             _balanceInvest += amount;
         }
 
@@ -56,7 +56,8 @@ namespace Banco.Entities
                 _balanceInvest -= value;
                 double rendimento = invest.Anual(value,years);   // renda de x anos de investimentos
                 double total = value + rendimento;
-                _extrato.Add($"Investimento Anual Aprovado de R${value.ToString("F2",CultureInfo.InvariantCulture)}");
+                _extrato.Add($"Investimento Anual Aprovado de R${value.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
+
                 Console.WriteLine($"O rendimento de {years} anos será de R${rendimento.ToString("F2",CultureInfo.InvariantCulture)}");
                 Console.WriteLine($"Saldo em {years} anos: R${total.ToString("F2",CultureInfo.InvariantCulture)}");
             }                  
@@ -73,7 +74,8 @@ namespace Banco.Entities
                 _balanceInvest -= value;
                 double rendimento = invest.Mensal(value,months);    // renda de x anos de investimentos
                 double total = value + rendimento;
-                _extrato.Add($"Investimento Mensal Aprovado de R${value.ToString("F2",CultureInfo.InvariantCulture)}");
+                _extrato.Add($"Investimento Mensal Aprovado de R${value.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
+
                 Console.WriteLine($"O rendimento de {months} meses será de R${rendimento.ToString("F2",CultureInfo.InvariantCulture)}");
                 Console.WriteLine($"Valor total em {months} meses será de R${total.ToString("F2",CultureInfo.InvariantCulture)}");
             }          
@@ -88,7 +90,7 @@ namespace Banco.Entities
             foreach(string str in _extrato)
             {
                 Console.WriteLine(str);
-                 Console.WriteLine("\n");
+                Console.WriteLine("\n");
             }
             Console.WriteLine($"Saldo Atual: R${_balanceInvest.ToString("F2",CultureInfo.InvariantCulture)}");
        }

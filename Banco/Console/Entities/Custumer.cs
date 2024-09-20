@@ -22,7 +22,7 @@ namespace Banco.Entities
 
         public override string ToString()
         {
-            return $"Name: {Name}\nEmail Principal: {Email}\nCPF: - {Cpf}";
+            return $"Name: {Name}\nEmail Principal: {Email}\nCPF: {Cpf}";
         }
     }
 }

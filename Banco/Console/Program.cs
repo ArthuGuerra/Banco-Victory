@@ -1,17 +1,19 @@
 ﻿using Banco.Entities;
 using Banco.Services;
+using Entities;
+
 
 try
 {
 
-Console.WriteLine($"Bem vindo ao Seu Banco");
+Console.WriteLine($"Bem vindo ao Banco fluxe");
 Console.WriteLine($"Nome: ");
 string nome = Console.ReadLine();
 Console.WriteLine($"");
 Console.WriteLine($"Coloque seu melhor Email:");
 string email = Console.ReadLine();
 Console.WriteLine($"");
-Console.WriteLine($"CPF: xxx-xxx-xxx ");
+Console.WriteLine($"CPF: xxx-xxx-xxx-xx ");
 string cpf = Console.ReadLine();
 
 Custumer custumer = new Custumer(nome,email,cpf);
@@ -34,6 +36,10 @@ while(wl != 3)
         Console.WriteLine($"Quanto deseja depositar ? ");
         double balance = double.Parse(Console.ReadLine());
         SavingsAccount sacc = new SavingsAccount(balance,custumer);
+        List<Pasta> lista = new List<Pasta>();
+        Console.ReadLine();
+        Console.Clear();
+
 
         int a = 10;
         while (a != 0)
@@ -43,6 +49,8 @@ while(wl != 3)
         Console.WriteLine($"2 - Depositar");
         Console.WriteLine($"3 - Extrato");
         Console.WriteLine($"4 - Poupança ");
+        Console.WriteLine($"5 - Atualizar Poupança ");
+        Console.WriteLine($"6 - Mostrar Pasta");
         Console.WriteLine($"0 - Voltar");
 
         a = int.Parse(Console.ReadLine());
@@ -77,14 +85,37 @@ while(wl != 3)
             case 4: 
             Console.WriteLine($"Digite a finalidade para o investimento");
             string obj = Console.ReadLine();
-            Console.WriteLine($"Quanto deseja guardar ? ");
-            double meta = double.Parse(Console.ReadLine());
-            sacc.ReservaDeDinheiro(obj,meta);
             Console.WriteLine($"");
-            sacc.PrintObjetivo();
+            Console.WriteLine($"Qual sua Meta ? ");
+            double meta = double.Parse(Console.ReadLine());
+            Console.WriteLine($"Quanto deseja guardar ? ");
+            double value = double.Parse(Console.ReadLine());
+            sacc.ReservaDeDinheiro(obj,value);         
+            Console.WriteLine($"");
+            Pasta pasta = new Pasta(obj,value,meta);
+            sacc.AddLista(pasta);
             Console.ReadLine();
             Console.Clear();
-            break;              
+            break;
+
+            case 5:
+            Console.WriteLine("Deseja Atualizar qual objetivo ? ");
+            string objective = Console.ReadLine();
+            Console.WriteLine("");
+            Console.WriteLine($"Quanto deseja acrescentar ? ");
+            double atualiza = double.Parse(Console.ReadLine());
+            sacc.AtualizarReserva(new Pasta(objective),atualiza);
+            Console.ReadLine();
+            Console.Clear();
+            break;
+
+            case 6:
+            Console.WriteLine($"\n");
+            sacc.Print();
+            Console.WriteLine($"\n");
+            Console.ReadLine();
+            Console.Clear();
+            break;
         }
         }
         break;
@@ -173,5 +204,5 @@ while(wl != 3)
     Console.WriteLine(a.Message);
 } catch(Exception e)
 {
-    Console.WriteLine("Erro Genérico" + e.Message);
+    Console.WriteLine("Erro Genérico " + e.Message);
 }

@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Banco
-build_property.ProjectDir = /home/arthurguerra/Documentos/PraticandoC/BancoFaculdade/Banco/Console/
+build_property.ProjectDir = /home/arthurguerra/Documentos/PraticandoC/BancoVictory/Banco/Console/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

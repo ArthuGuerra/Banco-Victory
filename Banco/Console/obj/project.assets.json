@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/arthurguerra/Documentos/PraticandoC/BancoFaculdade/Banco/Console/Banco.csproj",
+      "projectUniqueName": "/home/arthurguerra/Documentos/PraticandoC/BancoVictory/Banco/Console/Banco.csproj",
       "projectName": "Banco",
-      "projectPath": "/home/arthurguerra/Documentos/PraticandoC/BancoFaculdade/Banco/Console/Banco.csproj",
+      "projectPath": "/home/arthurguerra/Documentos/PraticandoC/BancoVictory/Banco/Console/Banco.csproj",
       "packagesPath": "/home/arthurguerra/.nuget/packages/",
-      "outputPath": "/home/arthurguerra/Documentos/PraticandoC/BancoFaculdade/Banco/Console/obj/",
+      "outputPath": "/home/arthurguerra/Documentos/PraticandoC/BancoVictory/Banco/Console/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/arthurguerra/.nuget/NuGet/NuGet.Config"

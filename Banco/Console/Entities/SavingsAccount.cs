@@ -1,5 +1,6 @@
 using System.Globalization;
-using System.Collections.Generic;
+using Entities;
+
 
 namespace Banco.Entities
 {
@@ -9,7 +10,9 @@ namespace Banco.Entities
         private int _count = 3;
         private List<string> _extrato = new List<string>();
         private Custumer _custumer;
-        private Dictionary<string,double> objetivo = new Dictionary<string,double>();
+        private DateTime _date = DateTime.UtcNow;
+        private HashSet<Pasta> _past = new HashSet<Pasta>();
+        
 
 
         public SavingsAccount(double balanceSa,Custumer custumer)
@@ -32,7 +35,7 @@ namespace Banco.Entities
             else
             {
                 _balanceSa -= amount;
-                _extrato.Add($"Saque realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}");
+                _extrato.Add($"Saque realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
                 Console.WriteLine("Saque realizado ");
                 _count--;
             }               
@@ -40,7 +43,7 @@ namespace Banco.Entities
 
         public void Deposit(double amount)
         {
-            _extrato.Add($"Depósito realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}");
+            _extrato.Add($"Depósito realizado de R${amount.ToString("F2",CultureInfo.InvariantCulture)}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
             _balanceSa += amount;
         }
 
@@ -68,17 +71,58 @@ namespace Banco.Entities
            else
            {
                 _balanceSa -= value;
-                _extrato.Add($"R${value.ToString("F2",CultureInfo.InvariantCulture)} investidos para {obj}");
-                objetivo.Add(obj,value); 
+                _extrato.Add($"R${value.ToString("F2",CultureInfo.InvariantCulture)} investidos para {obj}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
            }                   
         }
 
-         public void PrintObjetivo()
+
+        public void AddLista(Pasta past)
         {
-           foreach(KeyValuePair<string,double> item in objetivo)
-           {
-                Console.WriteLine($"Item: {item.Key} - {item.Value.ToString("F2",CultureInfo.InvariantCulture)}");
-           }
+            if(_past.Contains(past))
+            {
+                Console.WriteLine("Esse Objetivo já foi registrado");
+            }
+            else
+            {
+                _past.Add(past);
+                Console.WriteLine("Objetivo registrado");
+            }
         }
-    }
+
+
+        public void Print()
+        {
+            foreach(Pasta past in _past)
+            {
+               Console.WriteLine( $"Objetivo: {past.Obj} - Valor Reservado: R${past.Value.ToString("F2",CultureInfo.InvariantCulture)} - Faltam: R${past.Total.ToString("F2",CultureInfo.InvariantCulture)}");           
+            }        
+        }
+
+        public void AtualizarReserva(Pasta pasta,double atualizacao)
+        {
+            if (_past.Contains(pasta))
+            {
+                var pastaExistente = _past.First(p => p.Equals(pasta));
+
+                if(atualizacao > _balanceSa)
+                {
+                    Console.WriteLine("Saldo Insuficiente para atualização");
+                }
+                else
+                {
+                    pastaExistente.Value += atualizacao;
+                    _balanceSa -= atualizacao;
+                    _extrato.Add($"Acréscimo de R${atualizacao.ToString("F2",CultureInfo.InvariantCulture)} investidos em {pastaExistente.Obj}\nHorario: {_date.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss")}");
+                    Console.WriteLine("Objetivo Atualizado");
+                }
+               
+            }
+            else
+            {
+                Console.WriteLine("Objetivo não registrado");
+            }
+
+        }
+
+    }        
 }
